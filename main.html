@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" crossorigin="anonymous"></script>
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="question">Câu 1: Động vật bạn yêu thích là gì?</h1>
+    <div id="answers">
+        <button onclick="nextQuestion(0)">Chó</button>
+        <button onclick="nextQuestion(1)">Mèo</button>
+        <button onclick="nextQuestion(2)">Gấu Trúc</button>
+        <button onclick="nextQuestion(3)">Mèo</button>
+    </div>
+    <p id="result" style="margin-top: 20px; font-size: 18px;"></p>
+
+    <script>
+        // Danh sách câu hỏi và câu trả lời
+        const quiz = [
+            {
+                question: "Câu 1: Động vật bạn yêu thích là gì?",
+                answers: ["Chó", "Mèo", "Gấu Trúc", "Mèo"],
+                correctAnswer: 2
+            },
+            {
+                question: "Câu 2: bạn sinh ngày nào?",
+                answers: ["1/1", "23/9", "18/6", "26/6"],
+                correctAnswer: 2
+            },
+            {
+                question: "Câu 3: bạn thuộc cung gì?",
+                answers: ["Bình nước", "Hai con cá", "Cua", "Bọ cạp"],
+                correctAnswer: 2
+            },
+            {
+                question: "Câu 4: Phim đầu tiên tui với bạn coi là gì?",
+                answers: ["Hai Đường", "Phim ma thái", "Doraemon", "Shin- cậu bé bút bi"],
+                correctAnswer: 2
+            },
+            {
+                question: "Câu 5: bạn hiền hay dữ?",
+                answers: ["hơi hiền", "hơi dữ", "hiền", "dữ"],
+                correctAnswer: 2
+            }
+        ];
+
+        let currentQuestion = 0; // Vị trí câu hỏi hiện tại
+        let count = 0; // Số câu trả lời đúng
+
+        // Hàm chuyển sang câu hỏi kế tiếp
+        function nextQuestion(selectedAnswer) {
+            const resultElement = document.getElementById('result');
+            const questionElement = document.getElementById('question');
+            const answersElement = document.getElementById('answers');
+
+            // Kiểm tra đáp án
+            if (selectedAnswer === quiz[currentQuestion].correctAnswer) {
+                count++;
+                resultElement.innerHTML = `Chúc mừng bạn đúng nhen <i class="fas fa-smile"></i>`;
+            } else {
+                resultElement.textContent = `Chúc may mắn nha :)))`;
+            }
+
+            // Chuyển sang câu hỏi kế tiếp
+            currentQuestion++;
+            if (currentQuestion < quiz.length) {
+                // Cập nhật câu hỏi
+                questionElement.textContent = quiz[currentQuestion].question;
+
+                // Cập nhật các câu trả lời
+                answersElement.innerHTML = '';
+                quiz[currentQuestion].answers.forEach((answer, index) => {
+                    const button = document.createElement('button');
+                    button.textContent = answer;
+                    button.onclick = () => nextQuestion(index);
+                    answersElement.appendChild(button);
+                });
+            } else {
+                // Kết thúc quiz
+                questionElement.textContent = "Bạn đã hoàn thành bài quiz!";
+                answersElement.innerHTML = `Số câu trả lời đúng: ${count}/${quiz.length}`;
+                if(count === 5){
+                    document.getElementById('result').innerHTML='Chúc mừng bạn đã trả đúng hết nha có quà đó nha =}}' 
+                }
+            }
+        }
+    </script>
+</body>
+</html>
